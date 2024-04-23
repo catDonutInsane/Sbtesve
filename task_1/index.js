@@ -2,10 +2,13 @@ import {encoded, translations} from './data.js'
 
 let decodeFunc =(encoded, translations)=>{
     
+    let IDs = []
    let result = encoded.map(i=>{
     let obj ={}
         for(let key in i){
-            
+            if(/\b(group)(Id)\b/.test(key)){
+                IDs.push(i[key])
+            }
              if(/\b(?!group)\w+(Id)\b/.test(key)){
                 if(i[key]===null){
                     obj[key]=i[key]
@@ -17,13 +20,18 @@ let decodeFunc =(encoded, translations)=>{
                 
             }else{
                 obj[key]=i[key]
+                
             }
         }
         return obj
     })
-    return result
+    return {result,IDs}
 }
 console.log(decodeFunc(encoded, translations))
+
+
+
+
 
 
 
